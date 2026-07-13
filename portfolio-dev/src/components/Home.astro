@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import portraitImage from '../assets/lightPortrait.jpeg';
+---
+<section id="home" class="hero">
+                <div class="hero-content ">
+                    <div class="portrait-container ">
+                        <Image src={portraitImage} alt="me" class="portrait"/>
+                    </div>
+
+                    <div class="hero-text">
+                        <h1>Edwin Muñoz</h1>
+
+                        <p class="hero-subtitle">
+                            Avian-Feline Fluff Dynamics | Lead Investigator
+                        </p>
+
+                        <div class="social-links">
+                            <a
+                                href="https://x.com"
+                                target="_blank"
+                                aria-label="X (Twitter)"
+                            >
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+
+                            <a
+                                href="https://linkedin.com"
+                                target="_blank"
+                                aria-label="LinkedIn"
+                            >
+                                <i class="fa-brands fa-linkedin"></i>
+                            </a>
+
+                            <a
+                                href="https://github.com"
+                                target="_blank"
+                                aria-label="GitHub"
+                            >
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+
+                            <a
+                                href="https://scholar.google.com"
+                                target="_blank"
+                                aria-label="Google Scholar"
+                            >
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </a>
+
+                            <a
+                                href="mailto:correo@ejemplo.com"
+                                aria-label="Correo"
+                            >
+                                <i class="fa-solid fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
