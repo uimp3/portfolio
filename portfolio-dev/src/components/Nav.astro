@@ -43,14 +43,16 @@ const navItems: NavItem[] = [
 ---
 
 <div class="fixed top-4 right-4 z-50 md:top-4 md:right-4 flex items-center gap-3 reveal-content" style="animation-delay: 700ms;">
-  <a
-    href={languageToggleHref}
-    aria-label={isEnglish ? 'Cambiar a español' : 'Switch to English'}
-    class="language-toggle inline-flex items-center gap-2 rounded-full border border-white/10 bg-[color-mix(in_srgb,var(--color-background),transparent_15%)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:text-maintext"
-  >
-    <span class="language-toggle-dot h-2 w-2 rounded-full bg-current opacity-70"></span>
-    <span>{languageToggleLabel}</span>
-  </a>
+  <div id="language-toggle-wrapper">
+    <a
+      href={languageToggleHref}
+      aria-label={isEnglish ? 'Cambiar a español' : 'Switch to English'}
+      class="language-toggle inline-flex items-center gap-2 rounded-full border border-white/10 bg-[color-mix(in_srgb,var(--color-background),transparent_15%)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:text-maintext"
+    >
+      <span class="language-toggle-dot h-2 w-2 rounded-full bg-current opacity-70"></span>
+      <span>{languageToggleLabel}</span>
+    </a>
+  </div>
 
   <div id="theme-toggle-wrapper">
     <ThemeToggle />
@@ -210,8 +212,18 @@ const navItems: NavItem[] = [
       will-change: transform;
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
+    #language-toggle-wrapper {
+      will-change: transform;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     /* Slide the button UP out of view */
     #theme-toggle-wrapper.theme-hidden {
+      transform: translateY(-150%) !important;
+    }
+
+    #language-toggle-wrapper.theme-hidden {
       transform: translateY(-150%) !important;
     }
   }
@@ -250,6 +262,7 @@ const navItems: NavItem[] = [
   //scroll morphing effect, changing width & border radius
   const nav = document.getElementById("main-nav");
   const themeWrapper = document.getElementById("theme-toggle-wrapper");
+  const languageWrapper = document.getElementById("language-toggle-wrapper");
 
   const maxScroll = 1000;
   let lastScrollY = window.scrollY;
@@ -278,13 +291,15 @@ const navItems: NavItem[] = [
     if (window.innerWidth < 768) {
       // Small buffer (e.g. 10px) to prevent accidental hiding on "jittery" scrolls
       if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        // Scrolling Down - Hide Nav & theme-toggle
+        // Scrolling Down - Hide Nav & toggles
         nav?.classList.add("nav-hidden");
         themeWrapper?.classList.add("theme-hidden");
+        languageWrapper?.classList.add("theme-hidden");
       } else {
-        // Scrolling Up - Show Nav & theme-toggle
+        // Scrolling Up - Show Nav & toggles
         nav?.classList.remove("nav-hidden");
         themeWrapper?.classList.remove("theme-hidden");
+        languageWrapper?.classList.remove("theme-hidden");
       }
     }
 
