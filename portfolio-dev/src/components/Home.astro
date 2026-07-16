@@ -1,11 +1,14 @@
 ---
 import { Image } from 'astro:assets';
-import portraitImage from '../assets/lightPortrait.jpeg';
+import portraitLight from '../assets/lightPortrait.jpeg';
+import portraitDark from '../assets/portrait.jpeg';
+
 ---
 <section id="home" class="hero">
                 <div class="hero-content ">
                     <div class="portrait-container ">
-                        <Image src={portraitImage} alt="me" class="portrait"/>
+                        <Image src={portraitLight} alt="me" class="portrait-light"/>
+                        <Image src={portraitDark} alt="me" class="portrait-dark"/>
                     </div>
 
                     <div class="hero-text">

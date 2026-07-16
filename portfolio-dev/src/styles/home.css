@@ -36,6 +36,39 @@
     box-shadow: 0px 0px 20px 10px rgba(59, 59, 59, 0.2);
 }
 
+.portrait-dark {
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0px 0px 20px 10px rgba(59, 59, 59, 0.2);
+}
+
+.portrait-light {
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0px 0px 20px 10px rgba(59, 59, 59, 0.2);
+    display: none;
+}
+
+[data-theme$="-dark"] .portrait-dark {
+    display: block;
+}
+
+[data-theme$="-dark"] .portrait-light {
+    display: none;
+}
+
+[data-theme$="-light"] .portrait-dark {
+    display: none;
+}
+
+[data-theme$="-light"] .portrait-light {
+    display: block;
+}
+
 .hero-text {
     flex: 0 1 auto;
     display: flex;
