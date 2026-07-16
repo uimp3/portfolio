@@ -73,20 +73,20 @@
   /* Default Theme - Dark */
   :root,
   [data-theme="default-dark"] {
-    --color-background: #000000;
-    --color-accent: gray;
-    --color-maintext: #FFFFFF;
-    --color-subtext: #b2bed1;
-    --color-textrain: #7d7b9c;
+    --color-background: #0B0F17;
+    --color-accent: #D3414E;
+    --color-maintext: #F8FAFC;
+    --color-subtext: #94A3B8;
+    --color-textrain: #3B82F6;
   }
 
   /* Default Theme - Light */
   [data-theme="default-light"] {
-    --color-background: #bdbdbd;
-    --color-accent: dark-gray;
-    --color-maintext: #1d1d27;
-    --color-subtext: #4B5563;
-    --color-textrain: #97a7dc;
+    --color-background: #FAFAF8;
+    --color-accent: #D3414E;
+    --color-maintext: #111827;
+    --color-subtext: #6B7280;
+    --color-textrain: #60A5FA;
   }
 
   /* Strategic Architect - Dark */
@@ -155,7 +155,7 @@
       135deg,    
       color-mix(in srgb, var(--color-background), black 16%) 0%,
       var(--color-background) 50%,
-      color-mix(in srgb, var(--color-background), #BFC5D2 20%) 100%
+      color-mix(in srgb, var(--color-background), white 16%) 100%
     );
     background-attachment: fixed;
     min-height: 100vh;
