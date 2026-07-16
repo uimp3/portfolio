@@ -1,0 +1,25 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ThemeToggle from "../../components/ThemeToggle.astro";
+import Header from "../../components/Header.astro";
+import Nav from "../../components/Nav.astro";
+import Home from "../../components/Home.astro";
+import Tech from "../../components/Tech.astro";
+import Projects from "../../components/Projects.astro";
+import Contact from "../../components/Contact.astro";
+import Career from "../../components/Career.astro";
+import localData from "../../i18n/es.ts";
+import { languages } from "../../i18n";
+
+const { webpageTitle } = localData;
+const t = languages.es;
+---
+
+<Layout title={webpageTitle}>
+  <Nav />
+  <Home />
+  <Career />
+  <Projects />
+  <Tech />
+  <Contact />
+</Layout>

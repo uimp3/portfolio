@@ -1,0 +1,48 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ThemeToggle from "../../components/ThemeToggle.astro";
+import Header from "../../components/Header.astro";
+import Nav from "../../components/Nav.astro";
+import Home from "../../components/Home.astro";
+import Tech from "../../components/Tech.astro";
+import Projects from "../../components/Projects.astro";
+import Contact from "../../components/Contact.astro";
+import Career from "../../components/Career.astro";
+import localData from '../../data/home.json';
+import i18n from '../../i18n/en.ts';
+import { languages } from "../../i18n";
+
+interface ProfileData {
+  webpageTitle: string;
+}
+
+const isApiLive = import.meta.env.PROD; // Auto true in production
+const BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
+
+let data: ProfileData; // data as ProfileData
+
+if (isApiLive && BASE_URL) {
+  try {
+    const response = await fetch(`${BASE_URL}/home`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    data = await response.json();
+  } catch (error) {
+    console.error("API Fetch failed, falling back to mock data", error);
+    data = localData as ProfileData;
+  }
+} else {
+  data = localData as ProfileData;
+}
+
+const { webpageTitle } = data;
+const t = languages.en;
+---
+
+<Layout title={webpageTitle}>
+  <Nav />
+  <Home />
+  <Career />
+  <Projects />
+  <Tech />
+  <Contact />
+</Layout>

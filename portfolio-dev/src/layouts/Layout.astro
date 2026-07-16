@@ -2,25 +2,21 @@
 import "../styles/global.css";
 import "../styles/home.css";
 import { Image } from "astro:assets";
+import Nav from "../components/Nav.astro";
 import Header from "../components/Header.astro";
 import Home from "../components/Home.astro";
 import Career from "../components/Career.astro";
 import Projects from "../components/Projects.astro";
 import Tech from "../components/Tech.astro";
-import Nav from "../components/Nav.astro";
+import Contact from "../components/Contact.astro";
 import ThemeToggleAstro from "../components/ThemeToggle.astro";
 import { SITE_CONFIG } from "../config.ts";
 interface Props {
     title: string;
-    name: string;
-    tagline: string;
-    twitter: string;
-    linkedin: string;
-    scholar: string;
-    email: string;
+
 }
 
-const { title, name, tagline, twitter, linkedin, scholar, email } = Astro.props;
+const { title } = Astro.props;
 
 const baseTheme = SITE_CONFIG.baseTheme;
 const defaultTheme = `${baseTheme}-dark`;
@@ -53,67 +49,11 @@ const defaultTheme = `${baseTheme}-dark`;
             }
         </script>
     </head>
-    <!-- <body>
-		// body lorem ipsum
-		<Header />
-
-		<slot />
-	</body> -->
     <body class="bg-base-100 text-maintext font-body">
         <main>
-            <Nav />
-            <Home id="home" />
-            <Career id="career" />
-            <Projects id="projects" />
-            <Tech id="tech" />
-            
-            <section id="contact">
-                <h2>Contact</h2>
-
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Nobis quidem dicta dignissimos odit ipsa quas.
-                </p>
-
-                <form>
-                    <p>
-                        <label>Nombre</label><br />
-                        <input type="text" />
-                    </p>
-
-                    <p>
-                        <label>Correo</label><br />
-                        <input type="email" />
-                    </p>
-
-                    <p>
-                        <label>Mensaje</label><br />
-                        <textarea rows="6"></textarea>
-                    </p>
-
-                    <button type="submit">Enviar</button>
-                </form>
-
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Aliquid repellat, illo aspernatur nihil accusamus quisquam
-                    quae inventore eaque rerum necessitatibus.
-                </p>
-            </section>
         </main>
 
         <slot />
     </body>
 </html>
 
-<style is:global>
-    html {
-        background-color: #0e0e0e;
-        color: #ffffff;
-        font-family: system-ui, sans-serif;
-    }
-    body {
-        display: flex;
-        justify-content: center;
-    }
-</style>
