@@ -20,6 +20,7 @@
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
+    padding: 0 3rem;
 }
 
 .portrait-container {
@@ -95,6 +96,7 @@
     .hero-content {
         flex-direction: column;
         gap: 1.5rem;
+        padding: 0 1rem;
     }
 
     .hero-text {
