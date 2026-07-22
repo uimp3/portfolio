@@ -3,7 +3,7 @@ export default {
     home: {
         "name": "Edwin Danilo Muñoz",
         "photoUrl": "favicon.svg",
-        "intro": "Systems Engineer passionate about backend development, AI, and building scalable solutions. Specialized in Python, Django, and Full Stack development with focus on automation and digital transformation.",
+        "intro": "Systems Engineer passionate about backend development and building scalable solutions. Specialized in Python, Django, and Full Stack development with focus on automation and digital transformation.",
         "introHtml": "Systems Engineer passionate about <span class='text-white font-bold'>backend development</span>, <span class='text-white font-bold'>AI</span>, and building <span class='text-white font-bold'>scalable solutions</span>. Specialized in Python, Django, and Full Stack development.",
         "webpageTitle": "Edwin Muñoz - Systems Engineer",
         "resumeUrl": "https://example-files.online-convert.com/document/pdf/example.pdf",
@@ -72,21 +72,7 @@ export default {
 
     projects: {
         title: "Projects",
-        subtitle: "A selection of my recent projects",
-        projects: [
-            {
-                "name": "Coffee Inventory & Traceability Platform",
-                "description": "A comprehensive web platform for inventory control, coffee traceability, and order management. Features automated processes and digital traceability to improve inventory administration.",
-                "technologies": ["Python", "Django", "Django REST Framework", "PostgreSQL", "Git"],
-                "link": "#"
-            },
-            {
-                "name": "Enterprise VoIP Telephony System with Asterisk",
-                "description": "Designed and implemented a VoIP communication system on Linux using Asterisk. Configured SIP extensions, voicemail, Apache integration, and network services.",
-                "technologies": ["Asterisk", "Linux", "Apache", "TCP/IP"],
-                "link": "#"
-            }
-        ]
+        subtitle: "A selection of my recent projects"
     },
 
     tech: {

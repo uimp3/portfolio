@@ -3,7 +3,7 @@ export default {
     "home": {
         "name": "Edwin Danilo Muñoz",
         "photoUrl": "favicon.svg",
-        "intro": "Ingeniero de Sistemas apasionado por el desarrollo backend, la IA y la creación de soluciones escalables. Especializado en Python, Django y desarrollo Full Stack con un enfoque en la automatización y la transformación digital.",
+        "intro": "Ingeniero de Sistemas apasionado por el desarrollo backend y la creación de soluciones escalables. Especializado en Python, Django y desarrollo Full Stack con un enfoque en la automatización y la transformación digital.",
         "introHtml": "Ingeniero de Sistemas apasionado por el <span class='text-white font-bold'>desarrollo backend</span>, la <span class='text-white font-bold'>IA</span> y la creación de <span class='text-white font-bold'>soluciones escalables</span>. Especializado en Python, Django y desarrollo Full Stack.",
         "webpageTitle": "Edwin Muñoz - Ingeniero de Sistemas",
         "resumeUrl": "https://example-files.online-convert.com/document/pdf/example.pdf",
@@ -67,21 +67,7 @@ export default {
 
     projects: {
         title: "Proyectos",
-        subtitle: "Una selección de mis proyectos recientes",
-        projects: [
-            {
-                "name": "Plataforma de Gestión de Inventarios y Trazabilidad del Café",
-                "description": "Una plataforma web integral para control de inventarios, trazabilidad del café y gestión de pedidos. Cuenta con procesos automatizados y trazabilidad digital para mejorar la administración del inventario.",
-                "technologies": ["Python", "Django", "Django REST Framework", "PostgreSQL", "Git"],
-                "link": "#"
-            },
-            {
-                "name": "Sistema Empresarial de Telefonía IP con Asterisk",
-                "description": "Diseñé e implementé un sistema de comunicación VoIP sobre Linux utilizando Asterisk. Configuré extensiones SIP, correo de voz, integración con Apache y servicios de red.",
-                "technologies": ["Asterisk", "Linux", "Apache", "TCP/IP"],
-                "link": "#"
-            }
-        ]
+        subtitle: "Una selección de mis proyectos recientes"
     },
     tech: {
         title: "Tecnologías",

@@ -1,22 +1,55 @@
 ---
 import { Icon } from "astro-icon/components";
 
-interface Project {
-  name: string;
-  description: string;
-  technologies: string[];
-  link: string;
-}
+const GITHUB_USERNAME = "uimp3";
 
 interface LocaleData {
   projects: {
     title: string;
     subtitle: string;
-    projects: Project[];
   };
 }
 
 const { locale } = Astro.props as { locale: LocaleData };
+
+interface GithubRepo {
+  name: string;
+  description: string | null;
+  html_url: string;
+  language: string | null;
+  topics: string[];
+  stargazers_count: number;
+  fork: boolean;
+  archived: boolean;
+}
+
+const humanize = (name: string) =>
+  name
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
+let repos: GithubRepo[] = [];
+
+try {
+  const res = await fetch(
+    `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`,
+    { headers: { Accept: "application/vnd.github+json" } }
+  );
+  if (res.ok) {
+    const data: GithubRepo[] = await res.json();
+    repos = data
+      .filter(
+        (repo) =>
+          !repo.fork &&
+          !repo.archived &&
+          repo.name.toLowerCase() !== GITHUB_USERNAME.toLowerCase()
+      )
+      .sort((a, b) => b.stargazers_count - a.stargazers_count)
+      .slice(0, 6);
+  }
+} catch {
+  repos = [];
+}
 ---
 
 <section id="projects" class="section-container overflow-hidden">
@@ -31,37 +64,43 @@ const { locale } = Astro.props as { locale: LocaleData };
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {locale.projects.projects.map((project) => (
-        <div class="project-card opacity-0 group flex flex-col p-6 rounded-2xl bg-accent/5 border border-accent/10 hover:border-accent/40 hover:bg-accent/10 transition-all duration-300">
-          <div class="flex items-start justify-between gap-4 mb-3">
-            <h3 class="text-maintext font-heading font-bold text-lg">
-              {project.name}
-            </h3>
-            {project.link && project.link !== "#" && (
-              <a
-                href={project.link}
-                target="_blank"
-                aria-label={project.name}
-                class="shrink-0 text-subtext hover:text-accent transition-colors"
-              >
-                <Icon name="mdi:open-in-new" class="w-5 h-5" />
-              </a>
-            )}
-          </div>
+      {repos.map((repo) => {
+        const tags = repo.topics.length
+          ? repo.topics
+          : repo.language
+            ? [repo.language]
+            : [];
+        return (
+          <a
+            href={repo.html_url}
+            target="_blank"
+            aria-label={repo.name}
+            class="project-card opacity-0 group flex flex-col p-6 rounded-2xl bg-accent/5 border border-accent/10 hover:border-accent/40 hover:bg-accent/10 transition-all duration-300"
+          >
+            <div class="flex items-start justify-between gap-4 mb-3">
+              <h3 class="text-maintext font-heading font-bold text-lg">
+                {humanize(repo.name)}
+              </h3>
+              <Icon
+                name="mdi:open-in-new"
+                class="shrink-0 w-5 h-5 text-subtext group-hover:text-accent transition-colors"
+              />
+            </div>
 
-          <p class="text-subtext font-body text-sm leading-relaxed mb-5 flex-1">
-            {project.description}
-          </p>
+            <p class="text-subtext font-body text-sm leading-relaxed mb-5 flex-1">
+              {repo.description || ""}
+            </p>
 
-          <div class="flex flex-wrap gap-2">
-            {project.technologies.map((tech) => (
-              <span class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-accent/10 text-accent border border-accent/20">
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-      ))}
+            <div class="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-accent/10 text-accent border border-accent/20">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </a>
+        );
+      })}
     </div>
   </div>
 </section>
