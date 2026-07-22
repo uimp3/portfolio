@@ -2,6 +2,17 @@
 // import { Icon } from 'astro-icon/components';
 import ThemeToggle from '../components/ThemeToggle.astro';
 
+interface LocaleData {
+  nav: {
+    home: string;
+    projects: string;
+    tech: string;
+    contact: string;
+  };
+}
+
+const { locale } = Astro.props as { locale: LocaleData };
+
 const currentPath = Astro.url.pathname;
 const isEnglish = currentPath.startsWith('/en');
 const languageToggleHref = isEnglish ? '/es' : '/en';
@@ -15,17 +26,17 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    label: "Home",
+    label: locale.nav.home,
     href: "#home",
     icon: `mdi:home`,
   },
   {
-    label: "Projects",
+    label: locale.nav.projects,
     href: "#projects",
     icon: `mdi:computer`,
   },
   {
-    label: "Tech",
+    label: locale.nav.tech,
     href: "#tech",
     icon: `mdi:code-tags`,
   },
@@ -35,7 +46,7 @@ const navItems: NavItem[] = [
   //   icon: `mdi:message`,
   // },
   {
-    label: "Contact",
+    label: locale.nav.contact,
     href: "#contact",
     icon: `mdi:message`,
   }

@@ -1,55 +1,103 @@
 ---
-// import { Icon } from 'astro-icon/components';
-import localData from '../data/home.json';
+import { Icon } from "astro-icon/components";
 
+interface SocialLink {
+  name: string;
+  url: string;
+  icon: string;
+  showInContact: boolean;
+}
+
+interface LocaleData {
+  home: {
+    name: string;
+    socials: SocialLink[];
+  };
+  contact: {
+    title: string;
+    subtitle: string;
+  };
+  footer: {
+    copyright: string;
+    builtWith: string;
+    sourceCode: string;
+  };
+}
+
+const { locale } = Astro.props as { locale: LocaleData };
 ---
 
 <section id="contact" class="section-container">
   <div class="container mx-auto">
     <div class="space-y-12">
       <div class="contact-header opacity-0 mb-16">
-        <h2 class="text-3xl md:text-4xl font-heading font-bold text-maintext mb-2 flex items-center gap-4">
-            <span class="text-accent">/</span> Contact Me
-          </h2>
+        <h2
+          class="text-3xl md:text-4xl font-heading font-bold text-maintext mb-2 flex items-center gap-4"
+        >
+          <span class="text-accent">/</span>
+          {locale.contact.title}
+        </h2>
         <p class="text-subtext font-body text-sm max-w-md">
-          Feel free to reach out. I'm always open to discussing new projects and opportunities.
+          {locale.contact.subtitle}
         </p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-        {localData.socials
-        .filter((social) => social.showInContact && social.url && social.url !== "#" && social.url !== "")
-        .map((social) => (
-          // <!-- Added 'contact-card' and 'opacity-0' here -->
-          // <a 
-          //   href={social.url} 
-          //   target="_blank" 
-          //   class="contact-card opacity-0 group p-8 bg-accent/5 border border-accent/10 rounded-2xl hover:border-accent/40 hover:bg-accent/10 transition-all duration-300"
-          //  >
-        {/* //     <Icon 
-        //       name={social.icon} 
-        //       class="w-10 h-10 text-accent mb-4 mx-auto group-hover:scale-110 transition-transform" 
-        //     /> */}
-          //   <h3 class="text-maintext font-bold mb-1">{social.name}</h3>
-          //   <p class="text-subtext text-xs truncate px-2">
-          //     {social.url.replace('https://', '').replace('mailto:', '').replace('wa.me/', '+')}
-          //   </p>
-          // </a>
-        ))}
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center"
+      >
+        {
+          locale.home.socials
+            .filter(
+              (social) =>
+                social.showInContact &&
+                social.url &&
+                social.url !== "#" &&
+                social.url !== "",
+            )
+            .map((social) => (
+              <a
+                href={social.url}
+                target={social.name === "Email" ? "_self" : "_blank"}
+                class="contact-card opacity-0 group p-8 bg-accent/5 border border-accent/10 rounded-2xl hover:border-accent/40 hover:bg-accent/10 transition-all duration-300"
+              >
+                <Icon
+                  name={social.icon}
+                  class="w-10 h-10 text-accent mb-4 mx-auto group-hover:scale-110 transition-transform"
+                />
+                <h3 class="text-maintext font-bold mb-1">{social.name}</h3>
+                <p class="text-subtext text-xs truncate px-2">
+                  {social.url.replace("https://", "").replace("mailto:", "")}
+                </p>
+              </a>
+            ))
+        }
       </div>
 
       <!-- /* FOOTER */ -->
       <div class="contact-footer opacity-0 pt-20 border-t border-white/5">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4"
+        >
           <p class="text-subtext text-sm font-body order-2 md:order-1">
-            Edwin Muñoz © 2026 All Rights Reserved
+            {locale.footer.copyright}
           </p>
-          <div class="flex items-center flex-wrap justify-center gap-3 text-subtext text-xs font-body order-1 md:order-2">
-            <span>Built using Astro</span>
+          <p class="text-subtext text-sm font-body order-1 md:order-2">
+            {locale.footer.builtWith}
+          </p>
+          <div class="flex items-center gap-1 order-3">
+            <span class="text-subtext text-sm font-body"
+              >{locale.footer.sourceCode}</span
+            >
+            <a
+              href={locale.footer.repo}
+              target="_blank"
+              class="flex items-center gap-1 text-subtext text-sm font-body hover:text-accent transition-colors"
+            > GitHub
+              <Icon name="mdi:github" class="w-4 h-4" />
+            </a>
           </div>
         </div>
       </div>
-      
     </div>
   </div>
 </section>
@@ -79,42 +127,48 @@ import localData from '../data/home.json';
 
 <script>
   const revealContact = () => {
-    const header = document.querySelector('.contact-header');
-    const footer = document.querySelector('.contact-footer');
-    const cards = document.querySelectorAll('.contact-card');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const target = entry.target as HTMLElement;
+    const header = document.querySelector(".contact-header");
+    const footer = document.querySelector(".contact-footer");
+    const cards = document.querySelectorAll(".contact-card");
 
-          if (target.classList.contains('contact-card')) {
-            const index = Array.from(cards).indexOf(target);
-            // Stagger effect for the 4-column grid
-            setTimeout(() => {
-              target.classList.add('reveal');
-            }, (index % 4) * 150);
-          } else {
-            // Header and Footer reveal immediately
-            target.classList.add('reveal');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const target = entry.target as HTMLElement;
+
+            if (target.classList.contains("contact-card")) {
+              const index = Array.from(cards).indexOf(target);
+              // Stagger effect for the 4-column grid
+              setTimeout(
+                () => {
+                  target.classList.add("reveal");
+                },
+                (index % 4) * 150,
+              );
+            } else {
+              // Header and Footer reveal immediately
+              target.classList.add("reveal");
+            }
+
+            observer.unobserve(target);
           }
-          
-          observer.unobserve(target);
-        }
-      });
-    }, { 
-      threshold: 0.15,
-      rootMargin: '0px 0px -10px 0px'
-    });
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -10px 0px",
+      },
+    );
 
     if (header) observer.observe(header);
     if (footer) observer.observe(footer);
-    cards.forEach(card => observer.observe(card));
-  }
-  
+    cards.forEach((card) => observer.observe(card));
+  };
+
   // Runs on initial load
-  window.addEventListener('load', revealContact);
-  
+  window.addEventListener("load", revealContact);
+
   // Support for Astro View Transitions
-  document.addEventListener('astro:after-swap', revealContact);
+  document.addEventListener("astro:after-swap", revealContact);
 </script>

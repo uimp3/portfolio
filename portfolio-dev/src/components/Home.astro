@@ -1,8 +1,36 @@
 ---
-import { Image } from 'astro:assets';
-import portraitLight from '../assets/lightPortrait.jpeg';
-import portraitDark from '../assets/portrait.jpeg';
+import { Image } from "astro:assets";
+import portraitLight from "../assets/lightPortrait.jpeg";
+import portraitDark from "../assets/portrait.jpeg";
 
+interface SocialLink {
+  name: string;
+  url: string;
+  icon: string;
+  showInContact: boolean;
+}
+
+interface LocaleData {
+  hero: {
+    subtitle: string;
+  };
+  home: {
+    intro: string;
+    socials: SocialLink[];
+  };
+}
+
+const { locale } = Astro.props as { locale: LocaleData };
+
+const getSocialIcon = (name: string): string => {
+  const iconMap: Record<string, string> = {
+    GitHub: "fa-brands fa-github",
+    LinkedIn: "fa-brands fa-linkedin",
+    Email: "fa-solid fa-envelope",
+    Whatsapp: "fa-brands fa-whatsapp"
+  };
+  return iconMap[name] || "fa-solid fa-link";
+};
 ---
 <section id="home" class="hero">
                 <div class="hero-content ">
@@ -15,48 +43,25 @@ import portraitDark from '../assets/portrait.jpeg';
                         <h1>Edwin Muñoz</h1>
 
                         <p class="hero-subtitle">
-                            Avian-Feline Fluff Dynamics | Lead Investigator
+                            {locale.hero.subtitle}
+                        </p>
+
+                        <p class="hero-about">
+                            {locale.home.intro}
                         </p>
 
                         <div class="social-links">
-                            <a
-                                href="https://x.com"
-                                target="_blank"
-                                aria-label="X (Twitter)"
-                            >
-                                <i class="fa-brands fa-x-twitter"></i>
-                            </a>
-
-                            <a
-                                href="https://linkedin.com"
-                                target="_blank"
-                                aria-label="LinkedIn"
-                            >
-                                <i class="fa-brands fa-linkedin"></i>
-                            </a>
-
-                            <a
-                                href="https://github.com"
-                                target="_blank"
-                                aria-label="GitHub"
-                            >
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-
-                            <a
-                                href="https://scholar.google.com"
-                                target="_blank"
-                                aria-label="Google Scholar"
-                            >
-                                <i class="fa-solid fa-graduation-cap"></i>
-                            </a>
-
-                            <a
-                                href="mailto:correo@ejemplo.com"
-                                aria-label="Correo"
-                            >
-                                <i class="fa-solid fa-envelope"></i>
-                            </a>
+                            {locale.home.socials.map((social) => (
+                                social.url ? (
+                                    <a
+                                        href={social.url}
+                                        target={social.name === 'Email' ? '_self' : '_blank'}
+                                        aria-label={social.name}
+                                    >
+                                        <i class={getSocialIcon(social.name)}></i>
+                                    </a>
+                                ) : null
+                            ))}
                         </div>
                     </div>
                 </div>
