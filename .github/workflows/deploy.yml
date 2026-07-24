@@ -21,25 +21,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
-          cache-dependency-path: portfolio-dev/pnpm-lock.yaml
+          cache: npm
+          cache-dependency-path: portfolio-dev/package-lock.json
 
       - name: Install dependencies
         working-directory: portfolio-dev
-        run: pnpm install --frozen-lockfile
+        run: npm install
 
       - name: Build
         working-directory: portfolio-dev
-        run: pnpm run build
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
