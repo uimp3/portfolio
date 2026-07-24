@@ -149,6 +149,10 @@
     @apply bg-accent text-background;
   }
 
+  html {
+    background-color: var(--color-background);
+  }
+
   body {
     @apply font-body antialiased text-maintext;
     background: linear-gradient(

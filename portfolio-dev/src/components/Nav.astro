@@ -1,5 +1,5 @@
 ---
-// import { Icon } from 'astro-icon/components';
+import { Icon } from 'astro-icon/components';
 import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface LocaleData {
@@ -88,10 +88,10 @@ const navItems: NavItem[] = [
               >
                 <div class="absolute -left-6 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full transition-all duration-300 scale-0 opacity-0 nav-indicator hidden md:block" />
                 <span class="md:hidden flex items-center justify-center w-6 h-6">
-                  {/* <Icon 
+                  <Icon 
                     name={item.icon} 
                     class="nav-icon w-full h-full text-accent/50 group-hover:text-accent transition-colors duration-300" 
-                  /> */}
+                  />
                 </span>
                 <span class="hidden md:inline-block">{item.label}</span>
                 <span class="md:hidden text-xs">{item.label}</span>
@@ -272,11 +272,8 @@ const navItems: NavItem[] = [
 <script>
   //scroll morphing effect, changing width & border radius
   const nav = document.getElementById("main-nav");
-  const themeWrapper = document.getElementById("theme-toggle-wrapper");
-  const languageWrapper = document.getElementById("language-toggle-wrapper");
 
   const maxScroll = 1000;
-  let lastScrollY = window.scrollY;
   let rafId: number | null = null;
 
   function updateNav() {
@@ -299,22 +296,6 @@ const navItems: NavItem[] = [
       nav?.classList.remove("scrolling");
       // nav?.style.setProperty("width", "80%");
     }
-    if (window.innerWidth < 768) {
-      // Small buffer (e.g. 10px) to prevent accidental hiding on "jittery" scrolls
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        // Scrolling Down - Hide Nav & toggles
-        nav?.classList.add("nav-hidden");
-        themeWrapper?.classList.add("theme-hidden");
-        languageWrapper?.classList.add("theme-hidden");
-      } else {
-        // Scrolling Up - Show Nav & toggles
-        nav?.classList.remove("nav-hidden");
-        themeWrapper?.classList.remove("theme-hidden");
-        languageWrapper?.classList.remove("theme-hidden");
-      }
-    }
-
-    lastScrollY = currentScrollY;
     rafId = null;
   }
 
