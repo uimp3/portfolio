@@ -13,9 +13,10 @@ interface LocaleData {
 
 const { locale } = Astro.props as { locale: LocaleData };
 
+const base = import.meta.env.BASE_URL;
 const currentPath = Astro.url.pathname;
-const isEnglish = currentPath.startsWith('/en');
-const languageToggleHref = isEnglish ? '/es' : '/en';
+const isEnglish = currentPath.startsWith(`${base}en`);
+const languageToggleHref = isEnglish ? `${base}es` : `${base}en`;
 const languageToggleLabel = isEnglish ? 'ES' : 'EN';
 
 interface NavItem {
