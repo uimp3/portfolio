@@ -167,7 +167,9 @@
         justify-content: center;
     }
 
-    .portrait {
+    .portrait,
+    .portrait-dark,
+    .portrait-light {
         width: min(250px, 80vw);
         height: min(250px, 80vw);
     }

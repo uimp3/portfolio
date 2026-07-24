@@ -21,6 +21,7 @@ interface LocaleData {
     copyright: string;
     builtWith: string;
     sourceCode: string;
+    repo: string;
   };
 }
 
@@ -74,14 +75,14 @@ const { locale } = Astro.props as { locale: LocaleData };
       </div>
 
       <!-- /* FOOTER */ -->
-      <div class="contact-footer opacity-0 pt-20 border-t border-white/5">
+      <div class="contact-footer opacity-0 pt-5 border-t border-white/5">
         <div
           class="flex flex-col md:flex-row justify-between items-center gap-4"
         >
-          <p class="text-subtext text-sm font-body order-2 md:order-1">
+          <p class="text-subtext text-sm font-body order-1 md:order-1">
             {locale.footer.copyright}
           </p>
-          <p class="text-subtext text-sm font-body order-1 md:order-2">
+          <p class="text-subtext text-sm font-body order-2 md:order-2">
             {locale.footer.builtWith}
           </p>
           <div class="flex items-center gap-1 order-3">

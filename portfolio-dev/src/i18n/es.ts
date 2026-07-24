@@ -1,7 +1,7 @@
 export default {
     webpageTitle: "Portafolio - Edwin Muñoz",
     "home": {
-        "name": "Edwin Danilo Muñoz",
+        "name": "Edwin Muñoz",
         "photoUrl": "favicon.svg",
         "intro": "Ingeniero de Sistemas apasionado por el desarrollo backend y la creación de soluciones escalables. Especializado en Python, Django y desarrollo Full Stack con un enfoque en la automatización y la transformación digital.",
         "introHtml": "Ingeniero de Sistemas apasionado por el <span class='text-white font-bold'>desarrollo backend</span>, la <span class='text-white font-bold'>IA</span> y la creación de <span class='text-white font-bold'>soluciones escalables</span>. Especializado en Python, Django y desarrollo Full Stack.",
