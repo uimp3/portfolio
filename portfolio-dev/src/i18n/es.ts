@@ -67,7 +67,14 @@ export default {
 
     projects: {
         title: "Proyectos",
-        subtitle: "Una selección de mis proyectos recientes"
+        subtitle: "Una selección de mis proyectos recientes",
+        descriptions: {
+            "portfolio": "Mi portafolio personal, construido con Astro y Tailwind CSS.",
+            "Retro-Car-Racing": "Un juego de carreras de autos 2D creado con Python y la biblioteca PyGame, inspirado en el clásico \"Brick Game Classic Car Race\".",
+            "TaskManagerIA": "Un gestor de tareas con funciones asistidas por IA.",
+            "CanchasSinteticas": "Una plataforma para la gestión de un negocio de canchas sintéticas.",
+            "reto_unidad1_edwin_munoz": "Una serie de ejercicios resueltos para el curso \"Fundamentos de Data Science e Ingeniería de Datos\" de Dev Senior Code."
+        }
     },
     tech: {
         title: "Tecnologías",

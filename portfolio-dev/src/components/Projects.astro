@@ -14,6 +14,7 @@ interface LocaleData {
   projects: {
     title: string;
     subtitle: string;
+    descriptions: Record<string, string>;
   };
 }
 
@@ -71,6 +72,8 @@ try {
           : repo.language
             ? [repo.language]
             : [];
+        const description =
+          locale.projects.descriptions[repo.name] || repo.description || "";
         return (
           <a
             href={repo.html_url}
@@ -89,7 +92,7 @@ try {
             </div>
 
             <p class="text-subtext font-body text-sm leading-relaxed mb-5 flex-1">
-              {repo.description || ""}
+              {description}
             </p>
 
             <div class="flex flex-wrap gap-2">

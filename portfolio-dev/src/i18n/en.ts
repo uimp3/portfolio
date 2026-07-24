@@ -72,7 +72,14 @@ export default {
 
     projects: {
         title: "Projects",
-        subtitle: "A selection of my recent projects"
+        subtitle: "A selection of my recent projects",
+        descriptions: {
+            "portfolio": "My personal portfolio, built with Astro and Tailwind CSS.",
+            "Retro-Car-Racing": "A 2D car racing game built with Python and PyGame, inspired by the classic \"Brick Game Classic Car Race\".",
+            "TaskManagerIA": "A task manager with AI-assisted features.",
+            "CanchasSinteticas": "A management platform for a synthetic sports fields business.",
+            "reto_unidad1_edwin_munoz": "A set of solved exercises for the \"Data Science & Data Engineering Fundamentals\" course by Dev Senior Code."
+        }
     },
 
     tech: {
