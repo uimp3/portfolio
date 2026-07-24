@@ -134,8 +134,8 @@ export default {
     },
 
     footer: {
-        copyright: "© 2024 Edwin Muñoz. Todos los derechos reservados.",
-        builtWith: "Construido con Astro y Tailwind CSS.",
+        copyright: "© 2024 Edwin Muñoz. Todos los derechos reservados",
+        builtWith: "Construido con Astro y Tailwind CSS",
         sourceCode: "Código fuente disponible en",
         repo: "https://github.com/uimp3/portfolio"
     }
