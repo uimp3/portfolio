@@ -2,6 +2,13 @@
 import { Icon } from "astro-icon/components";
 
 const GITHUB_USERNAME = "uimp3";
+const FEATURED_REPOS = [
+  "portfolio",
+  "Retro-Car-Racing",
+  "TaskManagerIA",
+  "CanchasSinteticas",
+  "reto_unidad1_edwin_munoz",
+];
 
 interface LocaleData {
   projects: {
@@ -37,15 +44,9 @@ try {
   );
   if (res.ok) {
     const data: GithubRepo[] = await res.json();
-    repos = data
-      .filter(
-        (repo) =>
-          !repo.fork &&
-          !repo.archived &&
-          repo.name.toLowerCase() !== GITHUB_USERNAME.toLowerCase()
-      )
-      .sort((a, b) => b.stargazers_count - a.stargazers_count)
-      .slice(0, 6);
+    repos = FEATURED_REPOS.map((name) =>
+      data.find((repo) => repo.name.toLowerCase() === name.toLowerCase())
+    ).filter((repo): repo is GithubRepo => Boolean(repo));
   }
 } catch {
   repos = [];
