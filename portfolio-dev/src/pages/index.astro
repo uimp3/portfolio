@@ -1,3 +1,15 @@
 ---
-return Astro.redirect(`${import.meta.env.BASE_URL}es`);
+const locale = Astro.request.headers.get('accept-language') ?? '';
+const preferredLanguage = locale
+  .split(',')
+  .map((value) => value.trim().split(';')[0].toLowerCase())
+  .find((value) => value.startsWith('en') || value.startsWith('es'));
+
+const detectedLocale = preferredLanguage?.startsWith('en') ? 'en' : 'es';
 ---
+
+<script define:vars={{ baseUrl: import.meta.env.BASE_URL, detectedLocale }}>
+  const browserLanguage = (navigator.language || navigator.languages?.[0] || '').toLowerCase();
+  const locale = browserLanguage.startsWith('en') ? 'en' : 'es';
+  window.location.replace(`${baseUrl}${locale}`);
+</script>
