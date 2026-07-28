@@ -27,7 +27,7 @@ const { project, index, galleryLabel, galleryCount } = Astro.props;
       <img
         src={project.gallery[0].src}
         alt={project.gallery[0].alt}
-        class="h-full w-full object-cover"
+        class="h-full w-full object-contain"
       />
       <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
       <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
