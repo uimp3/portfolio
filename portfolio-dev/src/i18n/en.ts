@@ -73,6 +73,8 @@ export default {
     projects: {
         title: "Projects",
         subtitle: "A selection of my recent projects",
+        galleryLabel: "Gallery",
+        galleryCount: "Multiple images",
         descriptions: {
             "portfolio": "My personal portfolio, built with Astro and Tailwind CSS.",
             "Retro-Car-Racing": "A 2D car racing game built with Python and PyGame, inspired by the classic \"Brick Game Classic Car Race\".",

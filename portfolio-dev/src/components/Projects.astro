@@ -14,6 +14,8 @@ interface LocaleData {
   projects: {
     title: string;
     subtitle: string;
+    galleryLabel: string;
+    galleryCount: string;
     descriptions: Record<string, string>;
   };
 }
@@ -36,6 +38,61 @@ const humanize = (name: string) =>
     .replace(/[-_]+/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
+const PROJECT_FOLDER_MAP: Record<string, string> = {
+  portfolio: "Portfolio",
+  "Retro-Car-Racing": "RetroCarRacing",
+  TaskManagerIA: "TaskManagerIA",
+  CanchasSinteticas: "CanchasSinteticas",
+  reto_unidad1_edwin_munoz: "RetoUnidad1",
+};
+
+const projectAssetModules = import.meta.glob("../assets/projects/*/*.{png,jpg,jpeg,webp,avif}", {
+  eager: true,
+}) as Record<string, unknown>;
+
+const toAssetSrc = (asset: unknown): string => {
+  if (typeof asset === "string") {
+    return asset;
+  }
+
+  if (asset && typeof asset === "object") {
+    const candidate = asset as {
+      src?: unknown;
+      default?: unknown;
+    };
+
+    if (typeof candidate.src === "string") {
+      return candidate.src;
+    }
+
+    if (typeof candidate.default === "string") {
+      return candidate.default;
+    }
+
+    if (candidate.default && typeof candidate.default === "object") {
+      const defaultCandidate = candidate.default as { src?: unknown };
+      if (typeof defaultCandidate.src === "string") {
+        return defaultCandidate.src;
+      }
+    }
+  }
+
+  return "";
+};
+
+const getProjectGallery = (folderName: string, projectName: string) => {
+  const folderMarker = `/projects/${folderName}/`;
+
+  return Object.entries(projectAssetModules)
+    .filter(([path]) => path.includes(folderMarker))
+    .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
+    .map(([_, asset], index) => ({
+      src: toAssetSrc(asset),
+      alt: `${humanize(projectName)} screenshot ${index + 1}`,
+    }))
+    .filter((image) => Boolean(image.src));
+};
+
 let repos: GithubRepo[] = [];
 
 try {
@@ -52,6 +109,38 @@ try {
 } catch {
   repos = [];
 }
+
+interface GalleryImage {
+  src: string;
+  alt: string;
+}
+
+interface ProjectCardData {
+  name: string;
+  description: string;
+  tags: string[];
+  htmlUrl: string;
+  gallery: GalleryImage[];
+}
+
+const projectCards: ProjectCardData[] = repos.map((repo) => {
+  const tags = repo.topics.length
+    ? repo.topics
+    : repo.language
+      ? [repo.language]
+      : [];
+  const description = locale.projects.descriptions[repo.name] || repo.description || "";
+  const folderName = PROJECT_FOLDER_MAP[repo.name] || repo.name;
+  const gallerySources = getProjectGallery(folderName, repo.name);
+
+  return {
+    name: repo.name,
+    description,
+    tags,
+    htmlUrl: repo.html_url,
+    gallery: gallerySources,
+  };
+});
 ---
 
 <section id="projects" class="section-container overflow-hidden">
@@ -66,48 +155,101 @@ try {
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {repos.map((repo) => {
-        const tags = repo.topics.length
-          ? repo.topics
-          : repo.language
-            ? [repo.language]
-            : [];
-        const description =
-          locale.projects.descriptions[repo.name] || repo.description || "";
-        return (
-          <a
-            href={repo.html_url}
-            target="_blank"
-            aria-label={repo.name}
-            class="project-card opacity-0 group flex flex-col p-6 rounded-2xl bg-accent/5 border border-accent/10 hover:border-accent/40 hover:bg-accent/10 transition-all duration-300"
+      {projectCards.map((project, index) => (
+        <article
+          class="project-card opacity-0 group flex flex-col p-6 rounded-2xl bg-accent/5 border border-accent/10 hover:border-accent/40 hover:bg-accent/10 transition-all duration-300"
+          data-project-index={index}
+        >
+          <button
+            type="button"
+            class="project-gallery mb-5 overflow-hidden rounded-2xl border border-accent/15 bg-mainbg/70 text-left"
+            data-gallery-trigger
+            aria-label={`${locale.projects.galleryLabel} ${humanize(project.name)}`}
           >
-            <div class="flex items-start justify-between gap-4 mb-3">
-              <h3 class="text-maintext font-heading font-bold text-lg">
-                {humanize(repo.name)}
-              </h3>
-              <Icon
-                name="mdi:open-in-new"
-                class="shrink-0 w-5 h-5 text-subtext group-hover:text-accent transition-colors"
+            <div class="gallery-main relative aspect-16/10 overflow-hidden bg-surface/80">
+              <img
+                src={project.gallery[0].src}
+                alt={project.gallery[0].alt}
+                class="h-full w-full object-cover"
               />
+              <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
+              <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
+                <div>
+                  <p class="text-[11px] uppercase tracking-[0.3em] text-white/80 font-semibold">
+                    {locale.projects.galleryLabel}
+                  </p>
+                  <p class="text-xs text-white/70 mt-1">{locale.projects.galleryCount}</p>
+                </div>
+                <div class="flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs text-white/90">
+                  <Icon name="mdi:image-multiple-outline" class="w-4 h-4" />
+                  <span>{project.gallery.length}</span>
+                </div>
+              </div>
             </div>
+          </button>
 
-            <p class="text-subtext font-body text-sm leading-relaxed mb-5 flex-1">
-              {description}
-            </p>
+          <div class="mb-3 flex items-start justify-between gap-4">
+            <h3 class="text-maintext font-heading font-bold text-lg">
+              {humanize(project.name)}
+            </h3>
+            <Icon
+              name="mdi:open-in-new"
+              class="shrink-0 w-5 h-5 text-subtext group-hover:text-accent transition-colors"
+            />
+          </div>
 
-            <div class="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <span class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-accent/10 text-accent border border-accent/20">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </a>
-        );
-      })}
+          <p class="text-subtext font-body text-sm leading-relaxed mb-5 flex-1">
+            {project.description}
+          </p>
+
+          <div class="flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-accent/10 text-accent border border-accent/20">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </article>
+      ))}
     </div>
   </div>
 </section>
+
+<div class="project-modal" data-project-modal hidden aria-hidden="true">
+  <div class="project-modal-backdrop" data-modal-close></div>
+  <div class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+    <button type="button" class="project-modal-close" data-modal-close aria-label="Close gallery">
+      <Icon name="mdi:close" class="w-5 h-5" />
+    </button>
+
+    <div class="project-modal-media">
+      <button type="button" class="project-modal-nav project-modal-prev" data-modal-prev aria-label="Previous image">
+        <Icon name="mdi:chevron-left" class="w-6 h-6" />
+      </button>
+
+      <figure class="project-modal-frame">
+        <img data-modal-image src="" alt="" class="project-modal-image" />
+      </figure>
+
+      <button type="button" class="project-modal-nav project-modal-next" data-modal-next aria-label="Next image">
+        <Icon name="mdi:chevron-right" class="w-6 h-6" />
+      </button>
+    </div>
+
+    <div class="project-modal-footer">
+      <div>
+        <h3 id="project-modal-title" data-modal-title class="text-lg font-heading font-bold text-maintext"></h3>
+        <p class="text-sm text-subtext mt-1" data-modal-counter></p>
+      </div>
+      <a href="#" target="_blank" class="project-modal-link" data-modal-link>
+        <Icon name="mdi:open-in-new" class="w-4 h-4" />
+        <span>Open project</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="project-data" set:html={JSON.stringify(projectCards)}></script>
 
 
 <style>
@@ -125,6 +267,106 @@ try {
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  .project-gallery {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    cursor: zoom-in;
+  }
+
+  .project-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+  }
+
+  .project-modal[hidden] {
+    display: none;
+  }
+
+  .project-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 7, 18, 0.82);
+    backdrop-filter: blur(14px);
+  }
+
+  .project-modal-panel {
+    position: relative;
+    z-index: 1;
+    width: min(92vw, 920px);
+    margin: 6vh auto 0;
+    border-radius: 1.5rem;
+    background: rgba(10, 14, 24, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    padding: 1rem;
+  }
+
+  .project-modal-close,
+  .project-modal-nav,
+  .project-modal-link {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgb(255, 255, 255);
+  }
+
+  .project-modal-close {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.9rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    z-index: 2;
+  }
+
+  .project-modal-media {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .project-modal-frame {
+    margin: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    aspect-ratio: 16 / 10;
+  }
+
+  .project-modal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .project-modal-nav {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+  }
+
+  .project-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  .project-modal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    border-radius: 999px;
+  }
+
   /* Shared Revealed State */
   .project-header.reveal,
   .project-card.reveal {
@@ -137,11 +379,109 @@ try {
   const initProjectReveal = () => {
     const header = document.querySelector('.project-header');
     const cards = document.querySelectorAll('.project-card');
+    const modal = document.querySelector('[data-project-modal]');
+    const modalImage = document.querySelector('[data-modal-image]');
+    const modalTitle = document.querySelector('[data-modal-title]');
+    const modalCounter = document.querySelector('[data-modal-counter]');
+    const modalLink = document.querySelector('[data-modal-link]');
+    const prevButton = document.querySelector('[data-modal-prev]');
+    const nextButton = document.querySelector('[data-modal-next]');
+    const closeButtons = document.querySelectorAll('[data-modal-close]');
+    const galleryTriggers = document.querySelectorAll('[data-gallery-trigger]');
+    const projectData = document.getElementById('project-data');
+    const projects = projectData ? JSON.parse(projectData.textContent || '[]') : [];
+
+    let activeProjectIndex = 0;
+    let activeImageIndex = 0;
+
+    const renderModal = () => {
+      const project = projects[activeProjectIndex];
+      const image = project.gallery[activeImageIndex];
+
+      if (!modal || !modalImage || !modalTitle || !modalCounter || !modalLink) {
+        return;
+      }
+
+      modalImage.setAttribute('src', image.src);
+      modalImage.setAttribute('alt', image.alt);
+      const titleParts = project.name.replace(/[-_]+/g, ' ').split(' ');
+      let formattedTitle = '';
+
+      for (let index = 0; index < titleParts.length; index += 1) {
+        const word = titleParts[index];
+        if (!word) {
+          continue;
+        }
+
+        formattedTitle += `${formattedTitle ? ' ' : ''}${word.charAt(0).toUpperCase()}${word.slice(1)}`;
+      }
+
+      modalTitle.textContent = formattedTitle;
+      modalCounter.textContent = `${activeImageIndex + 1} / ${project.gallery.length}`;
+      modalLink.setAttribute('href', project.htmlUrl);
+    };
+
+    const openModal = (projectIndex: number) => {
+      activeProjectIndex = projectIndex;
+      activeImageIndex = 0;
+      renderModal();
+      modal?.removeAttribute('hidden');
+      modal?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+      modal?.setAttribute('hidden', '');
+      modal?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    const goToImage = (delta: number) => {
+      const project = projects[activeProjectIndex];
+      activeImageIndex = (activeImageIndex + delta + project.gallery.length) % project.gallery.length;
+      renderModal();
+    };
+
+    galleryTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const parent = trigger.closest('[data-project-index]');
+        const projectIndex = parent ? Number(parent.getAttribute('data-project-index')) : 0;
+        openModal(projectIndex);
+      });
+    });
+
+    prevButton?.addEventListener('click', () => goToImage(-1));
+    nextButton?.addEventListener('click', () => goToImage(1));
+    closeButtons.forEach((button) => button.addEventListener('click', closeModal));
+
+    modal?.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLElement && event.target.matches('[data-modal-close]')) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (modal?.hasAttribute('hidden')) {
+        return;
+      }
+
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+
+      if (event.key === 'ArrowLeft') {
+        goToImage(-1);
+      }
+
+      if (event.key === 'ArrowRight') {
+        goToImage(1);
+      }
+    });
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const target = entry.target as HTMLElement;
+          const target = entry.target;
           
           // Check if the intersecting element is the header
           if (target.classList.contains('project-header')) {
@@ -170,7 +510,7 @@ try {
     if (header) observer.observe(header);
     
     // Observe all cards
-    cards.forEach(card => observer.observe(card));
+    cards.forEach((card) => observer.observe(card));
   };
 
   window.addEventListener('load', initProjectReveal);
