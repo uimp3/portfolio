@@ -1,0 +1,88 @@
+---
+import { Icon } from "astro-icon/components";
+import { humanize } from "../utils/projectGallery";
+import type { ProjectCardData } from "../utils/projectsData";
+
+interface Props {
+  project: ProjectCardData;
+  index: number;
+  galleryLabel: string;
+  galleryCount: string;
+}
+
+const { project, index, galleryLabel, galleryCount } = Astro.props;
+---
+
+<article
+  class="project-card opacity-0 group flex flex-col p-6 rounded-2xl bg-accent/5 border border-accent/10 hover:border-accent/40 hover:bg-accent/10 transition-all duration-300"
+  data-project-index={index}
+>
+  <button
+    type="button"
+    class="project-gallery mb-5 overflow-hidden rounded-2xl border border-accent/15 bg-mainbg/70 text-left"
+    data-gallery-trigger
+    aria-label={`${galleryLabel} ${humanize(project.name)}`}
+  >
+    <div class="gallery-main relative aspect-16/10 overflow-hidden bg-surface/80">
+      <img
+        src={project.gallery[0].src}
+        alt={project.gallery[0].alt}
+        class="h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
+      <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
+        <div>
+          <p class="text-[11px] uppercase tracking-[0.3em] text-white/80 font-semibold">
+            {galleryLabel}
+          </p>
+          <p class="text-xs text-white/70 mt-1">{galleryCount}</p>
+        </div>
+        <div class="flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs text-white/90">
+          <Icon name="mdi:image-multiple-outline" class="w-4 h-4" />
+          <span>{project.gallery.length}</span>
+        </div>
+      </div>
+    </div>
+  </button>
+
+  <div class="mb-3 flex items-start justify-between gap-4">
+    <h3 class="text-maintext font-heading font-bold text-lg">
+      {humanize(project.name)}
+    </h3>
+    <Icon
+      name="mdi:open-in-new"
+      class="shrink-0 w-5 h-5 text-subtext group-hover:text-accent transition-colors"
+    />
+  </div>
+
+  <p class="text-subtext font-body text-sm leading-relaxed mb-5 flex-1">
+    {project.description}
+  </p>
+
+  <div class="flex flex-wrap gap-2">
+    {project.tags.map((tag) => (
+      <span class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-accent/10 text-accent border border-accent/20">
+        {tag}
+      </span>
+    ))}
+  </div>
+</article>
+
+<style>
+  /* Cards Initial State */
+  .project-card {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-card.reveal {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1);
+  }
+
+  .project-gallery {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    cursor: zoom-in;
+  }
+</style>
