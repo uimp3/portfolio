@@ -3,11 +3,11 @@ import { getProjectGallery, type GalleryImage } from "./projectGallery";
 
 const GITHUB_USERNAME = "uimp3";
 const FEATURED_REPOS = [
-  "portfolio",
+  // "portfolio",
   "Retro-Car-Racing",
   "TaskManagerIA",
   "CanchasSinteticas",
-  "reto_unidad1_edwin_munoz",
+  // "reto_unidad1_edwin_munoz",
 ];
 
 export interface ProjectCardData {
