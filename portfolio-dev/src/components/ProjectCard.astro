@@ -49,10 +49,16 @@ const { project, index, galleryLabel, galleryCount } = Astro.props;
     <h3 class="text-maintext font-heading font-bold text-lg">
       {humanize(project.name)}
     </h3>
-    <Icon
-      name="mdi:open-in-new"
-      class="shrink-0 w-5 h-5 text-subtext group-hover:text-accent transition-colors"
-    />
+    <a
+      href={project.htmlUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex shrink-0 items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-[11px] font-medium text-accent transition-colors hover:bg-accent/20"
+      aria-label={`Open ${humanize(project.name)} repository`}
+    >
+      <Icon name="mdi:open-in-new" class="w-4 h-4" />
+      <span>Repo</span>
+    </a>
   </div>
 
   <p class="text-subtext font-body text-sm leading-relaxed mb-5 flex-1">
