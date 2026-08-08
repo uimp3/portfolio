@@ -35,7 +35,7 @@ const { projects } = Astro.props;
         <h3 id="project-modal-title" data-modal-title class="text-lg font-heading font-bold text-maintext"></h3>
         <p class="text-sm text-subtext mt-1" data-modal-counter></p>
       </div>
-      <a href="#" target="_blank" class="project-modal-link" data-modal-link>
+      <a href="#" target="_blank" rel="noopener noreferrer" class="project-modal-link" data-modal-link>
         <Icon name="mdi:open-in-new" class="w-4 h-4" />
         <span>Open project</span>
       </a>
@@ -159,6 +159,16 @@ const { projects } = Astro.props;
     let activeProjectIndex = 0;
     let activeImageIndex = 0;
 
+    const openActiveProject = () => {
+      const project = projects[activeProjectIndex];
+
+      if (!project?.htmlUrl) {
+        return;
+      }
+
+      window.open(project.htmlUrl, '_blank', 'noopener,noreferrer');
+    };
+
     const renderModal = () => {
       const project = projects[activeProjectIndex];
       const image = project.gallery[activeImageIndex];
@@ -219,6 +229,10 @@ const { projects } = Astro.props;
 
     prevButton?.addEventListener('click', () => goToImage(-1));
     nextButton?.addEventListener('click', () => goToImage(1));
+    modalLink?.addEventListener('click', (event) => {
+      event.preventDefault();
+      openActiveProject();
+    });
     closeButtons.forEach((button) => button.addEventListener('click', closeModal));
 
     modal?.addEventListener('click', (event) => {

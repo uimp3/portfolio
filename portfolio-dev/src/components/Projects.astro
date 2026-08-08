@@ -59,7 +59,11 @@ const projectCards = await getProjectCards(locale.projects);
 </style>
 
 <script>
+  import { initProjectCardNavigation } from '../utils/projectNavigation';
+
   const initProjectReveal = () => {
+    initProjectCardNavigation();
+
     const header = document.querySelector('.project-header');
     const cards = document.querySelectorAll('.project-card');
 
