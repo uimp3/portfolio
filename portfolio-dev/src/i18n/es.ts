@@ -96,6 +96,7 @@ export default {
                 "skills": [
                     { "name": "Django", "level": 3, "icon": "devicon-plain:django" },
                     { "name": "Django REST Framework", "level": 3, "icon": "devicon-plain:django" },
+                    { "name": "FastAPI", "level": 3, "icon": "devicon-plain:fastapi" },
                     { "name": "Spring Boot", "level": 2, "icon": "devicon-plain:spring" },
                     { "name": "Angular", "level": 2, "icon": "devicon-plain:angularjs" }
                 ]
