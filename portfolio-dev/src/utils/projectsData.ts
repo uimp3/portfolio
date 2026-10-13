@@ -4,9 +4,10 @@ import { getProjectGallery, type GalleryImage } from "./projectGallery";
 const GITHUB_USERNAME = "uimp3";
 const FEATURED_REPOS = [
   // "portfolio",
+  "ecomindala-coffee-traceability-case-study",
   "Retro-Car-Racing",
-  "TaskManagerIA",
-  "CanchasSinteticas",
+  // "TaskManagerIA",
+  // "CanchasSinteticas",
   // "reto_unidad1_edwin_munoz",
 ];
 

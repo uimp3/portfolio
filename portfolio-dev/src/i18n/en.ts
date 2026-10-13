@@ -80,7 +80,8 @@ export default {
             "Retro-Car-Racing": "A 2D car racing game built with Python and PyGame, inspired by the classic \"Brick Game Classic Car Race\".",
             "TaskManagerIA": "A task manager with AI-assisted features.",
             "CanchasSinteticas": "A management platform for a synthetic sports fields business.",
-            "reto_unidad1_edwin_munoz": "A set of solved exercises for the \"Data Science & Data Engineering Fundamentals\" course by Dev Senior Code."
+            "reto_unidad1_edwin_munoz": "A set of solved exercises for the \"Data Science & Data Engineering Fundamentals\" course by Dev Senior Code.",
+            "ecomindala-coffee-traceability-case-study": "A web application for managing coffee reception and transformation processes, built with Django and Django REST Framework."
         }
     },
 
@@ -148,7 +149,7 @@ export default {
         github: "https://github.com/uimp3"
     },
     footer: {
-        copyright: "© 2024 Edwin Muñoz. All rights reserved.",
+        copyright: "© 2026 Edwin Muñoz. All rights reserved.",
         builtWith: "Built with Astro and Tailwind CSS.",
         sourceCode: "Source code available on",
         repo: "https://github.com/uimp3/portfolio"

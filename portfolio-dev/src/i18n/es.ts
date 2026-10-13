@@ -75,7 +75,8 @@ export default {
             "Retro-Car-Racing": "Un juego de carreras de autos 2D creado con Python y la biblioteca PyGame, inspirado en el clásico \"Brick Game Classic Car Race\".",
             "TaskManagerIA": "Un gestor de tareas con funciones asistidas por IA.",
             "CanchasSinteticas": "Una plataforma para la gestión de un negocio de canchas sintéticas.",
-            "reto_unidad1_edwin_munoz": "Una serie de ejercicios resueltos para el curso \"Fundamentos de Data Science e Ingeniería de Datos\" de Dev Senior Code."
+            "reto_unidad1_edwin_munoz": "Una serie de ejercicios resueltos para el curso \"Fundamentos de Data Science e Ingeniería de Datos\" de Dev Senior Code.",
+            "ecomindala-coffee-traceability-case-study": "Una aplicación web para la gestión de los procesos de recepción y transformación del café, construida con Django y Django REST Framework."
         }
     },
     tech: {
@@ -143,7 +144,7 @@ export default {
     },
 
     footer: {
-        copyright: "© 2024 Edwin Muñoz. Todos los derechos reservados",
+        copyright: "© 2026 Edwin Muñoz. Todos los derechos reservados",
         builtWith: "Construido con Astro y Tailwind CSS",
         sourceCode: "Código fuente disponible en",
         repo: "https://github.com/uimp3/portfolio"
